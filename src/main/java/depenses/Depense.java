@@ -1,4 +1,4 @@
-package main.java;
+package main.java.depenses;
 
 import java.util.Locale;
 
