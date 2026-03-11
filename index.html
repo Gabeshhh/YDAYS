@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assistant Financier - V13</title>
+    <link rel="stylesheet" href="index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    
+    <div class="layout">
+        <!-- TOP BAR -->
+        <div class="topbar">
+            <div class="logo">Mon <em>Compte</em></div>
+            <div class="topbar-sep"></div>
+            <div class="topbar-start">
+                <span class="ts-label">Solde global</span>
+                <span class="ts-value neutral" id="topbar-solde">-</span>
+            </div>
+
+            <div class="topbar-sep"></div>
+
+            <div class="topbar-stat">
+                <span class="ts-label">Revenus</span>
+                <span class="ts-value pos" id="topbar-revenus">—</span>
+            </div>
+
+            <div class="topbar-stat">
+                <span class="ts-label">Dépenses</span>
+                <span class="ts-value neg" id="topbar-depenses">—</span>
+            </div>
+        
+            <div class="topbar-right">
+                <a href="conseils.html" class="btn-conseils">&#128161; Conseils</a>
+                <div class="month-nav">
+                  <button class="btn-month" onclick="changerMois(-1)">&#8249;</button>
+                  <div class="month-label" id="month-label">—</div>
+                  <button class="btn-month" onclick="changerMois(1)">&#8250;</button>
+                </div>
+            </div>
+
+
+
+            <!-- Les 3 colonnes -->
+             <div class="panels">
+
+                <!-- Side Bar Gauche -->
+                <div class="sidebar">
+
+                    <!-- Solde du mois -->
+                    <div class="sidebar-balance">
+                        <div class="sb-label">Solde du mois</div>
+
+                        <div class="sb-amount" id="sb-solde"> - </div>
+                        <div class="sb-sub"   id="sb-sub"> — </div>
+
+                        <div class="sb-row">
+                            <div class="sb-mini">
+                                <div class="sm-label">Revenus</div>
+                                <div class="sm-value green" id="sb-revenus"> - </div>
+                            </div>
+
+                            <div class="sb-mini">
+                                <div class="sm-label">Dépenses</div>
+                                <div class="sm-value red" id="sb-depenses"> — </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                
+             </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

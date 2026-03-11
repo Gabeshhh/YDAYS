@@ -30,7 +30,7 @@ public class TransactionProgrammee {
     public double getMontant() { return montant; }
     public String getDescription() { return description; }
     public String getType() { return type; }
-    public String getReccurence() { return reccurence; }
+    public String getRecurrence() { return reccurence; }
 
     // JSON 
     public String toJson() {
