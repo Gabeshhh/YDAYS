@@ -9,4 +9,28 @@
 </body>
     </div class="app">
 
-    y
+     <!-- ── En-tête ── -->
+        <header class="header">
+            <a href="/" class="retour">← Retour</a>
+            <div class="header-titre">
+                <span class="header-icone">🤖</span>
+                <div>
+                    <h1>Conseiller IA</h1>
+                    <p>Propulsé par Groq · llama-3.3-70b-versatile</p>
+                </div>
+            </div>
+        </header>
+
+         <!-- ── Zone de messages ── -->
+        <main class="chat-container" id="chatContainer">
+
+            <!-- Message de bienvenue affiché au chargement -->
+            <div class="message message-ia" id="messageBienvenue">
+                <div class="message-bulle">
+                    <p>Bonjour ! Je suis ton conseiller budgétaire IA. 👋</p>
+                    <p>J'ai accès à toutes tes dépenses et je peux t'aider à mieux gérer ton budget étudiant. Comment puis-je t'aider ?</p>
+                </div>
+                <span class="message-heure" id="heureBienvenue"></span>
+            </div>
+
+        </main>
