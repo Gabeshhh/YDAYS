@@ -51,8 +51,36 @@ public class DepenseService {
         return false;
     }
 
+    public List<Depense> getTout() {
+        return Collections.unmodifiableList(depenses);
+    }
+
     public List<TransactionProgrammee> getProgrammees(){
         return Collections.unmodifiableList(programmees);
+    }
+
+    public TransactionProgrammee ajouterProgrammee(String date, String categorie, double montant, String description, String type, String recurrence) {
+        TransactionProgrammee tp = new TransactionProgrammee(nextProgId++, date, categorie, montant, description, type, recurrence);
+        programmees.add(tp);
+        sauvegarderProgrammees();
+        return tp;
+    }
+
+    public boolean modifierProgrammee(int id, String date, String categorie, double montant, String description, String type, String recurrence) {
+        for (int i = 0; i < programmees.size(); i++) {
+            if (programmees.get(i).getId() == id) {
+                programmees.set(i, new TransactionProgrammee(id, date, categorie, montant, description, type, recurrence));
+                sauvegarderProgrammees();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean supprimerProgrammee(int id) {
+        boolean ok = programmees.removeIf(tp -> tp.getId() == id);
+        if (ok) sauvegarderProgrammees();
+        return ok;
     }
 
     // 
