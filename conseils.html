@@ -58,3 +58,30 @@
                 📈 Résumé de mes finances
             </button>
         </div>
+
+        <!-- ── Zone de saisie ── -->
+        <div class="saisie-container">
+            <div class="saisie-inner">
+                <textarea
+                    id="champMessage"
+                    class="champ-saisie"
+                    placeholder="Pose ta question au conseiller IA…"
+                    rows="1"
+                    autocomplete="off"
+                ></textarea>
+                <button class="btn-envoyer" id="btnEnvoyer" title="Envoyer (Entrée)">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                         stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="22" y1="2" x2="11" y2="13"/>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                    </svg>
+                </button>
+            </div>
+            <p class="saisie-astuce">Entrée pour envoyer · Shift+Entrée pour un saut de ligne</p>
+        </div>
+
+    </div>
+
+    <script src="conseils.js"></script>
+</body>
+</html>
