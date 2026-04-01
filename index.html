@@ -75,16 +75,248 @@
                     <div class="ss-title">Statistiques globales</div>
                     <div class="kpi-item">
                         <div class="kpi-label">Mois le plus couteux</div>
-                        <div class="kpi-value" id="kpi-mois"></div>
+                        <div class="kpi-value" id="kpi-mois"> - </div>
+                    </div>
 
+                    <div class="kpi-item">
+                        <div class="kpi-label">Catégorie principale</div>
+                        <div class="kpi-value" id="kpi-cat"> — </div>
+                    </div>
+                    <div class="kpi-item">
+                        <div class="kpi-label">Nombre de transactions</div>
+                        <div class="kpi-value" id="kpi-nb">—</div>
                     </div>
                  </div>
 
-                
-             </div>
-        </div>
 
+                 <!-- Budgets -->
+                <div class="sidebar-section" style="flex:1">
+                    <div class="ss-title">Budgets mensuels</div>
+                    <div id="budget-list">
+                      <div style="font-size:.8rem;color:var(--muted);padding:8px 0">Chargement…</div>
+                    </div>
+                </div>
+             </div>
+
+             <!-- Colonne transactions -->
+             <div class="main-col">
+
+                <div class="search-bar">
+                  <span>&#128269;</span>
+                  <input type="text" id="search-input" placeholder="Rechercher une transaction…" oninput="afficherTransactions()">
+                </div>
+          
+                <div id="tx-list">
+                  <div class="empty-tx">
+                    <div class="ei">&#128274;</div>
+                    <p>Chargement…</p>
+                  </div>
+                </div>
+          
+              </div>
+          
+              <!-- Panneau droit : formulaire + graphique + alertes -->
+              <div class="right-panel">
+          
+                <!-- Tabs dépense / revenu / planifiées -->
+                <div class="rp-tabs">
+                  <button class="rp-tab active depense" id="tab-depense" onclick="setType('depense')">&#8722; Dépense</button>
+                  <button class="rp-tab revenu"         id="tab-revenu"  onclick="setType('revenu')"> &#43; Revenu</button>
+                  <button class="rp-tab"                id="tab-prog"    onclick="setRightSection('programmees')">&#9200; Planifiées<span class="prog-badge" id="tab-prog-badge" style="display:none"></span></button>
+                </div>
+          
+
+                <div id="rp-add-section">
+
+                <!-- Formulaire -->
+                <div class="rp-form">
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label class="form-label">Date</label>
+                      <input type="date" id="f-date" class="form-input">
+                    </div>
+
+                    <div class="form-group">
+                      <label class="form-label">Montant (€)</label>
+                      <input type="number" id="f-montant" class="form-input" placeholder="0,00" step="0.01" min="0">
+                    </div>
+
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Catégorie</label>
+                    <select id="f-categorie" class="form-select"></select>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label">Description</label>
+                    <input type="text" id="f-description" class="form-input" placeholder="ex : Courses Lidl">
+                  </div>
+                  <button class="btn-submit depense" id="btn-submit" onclick="ajouterOperation()">Ajouter la dépense</button>
+                </div>
+          
+                <!-- Graphique -->
+                <div class="rp-chart">
+                  <div class="rp-section-title">Répartition par catégorie</div>
+                  <div class="chart-wrap">
+                    <canvas id="chart-cat"></canvas>
+                  </div>
+                </div>
+          
+                <!-- Alertes / conseils -->
+                <div class="rp-alerts" id="alerts-section" style="display:none">
+                  <div class="rp-section-title">Alertes</div>
+                  <div id="alerts-list"></div>
+                </div>
+                </div>
+                <!-- /rp-add-section -->
+          
+
+                <!-- Section Planifiées -->
+                <div id="prog-section" style="display:none; padding: 14px 14px 0; overflow-y: auto; flex: 1;">
+          
+                  <div class="rp-section-title" style="margin-bottom:8px">Nouvelle opération planifiée</div>
+          
+                  <!-- Bascule dépense/revenu -->
+                  <div class="prog-type-toggle">
+                    <button class="prog-type-btn active depense" id="prog-tab-dep" onclick="setProgType('depense')">&#8722; Dépense</button>
+                    <button class="prog-type-btn revenu"          id="prog-tab-rev" onclick="setProgType('revenu')"> &#43; Revenu</button>
+                  </div>
+          
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label class="form-label">Date prévue</label>
+                      <input type="date" id="p-date" class="form-input">
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Montant (€)</label>
+                      <input type="number" id="p-montant" class="form-input" placeholder="0,00" step="0.01" min="0">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Catégorie</label>
+                    <select id="p-categorie" class="form-select"></select>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Description</label>
+                    <input type="text" id="p-description" class="form-input" placeholder="ex : Loyer mars">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Récurrence</label>
+                    <select id="p-recurrence" class="form-select">
+                      <option value="aucune">Une seule fois</option>
+                      <option value="hebdomadaire">Chaque semaine</option>
+                      <option value="mensuelle">Chaque mois</option>
+                      <option value="annuelle">Chaque année</option>
+                    </select>
+                  </div>
+                  <button class="btn-submit depense" id="btn-prog-submit" onclick="ajouterProgrammee()">Planifier la dépense</button>
+          
+                  <!-- Liste des planifiées -->
+                  <div style="margin-top: 20px; padding-bottom: 14px;">
+                    <div class="rp-section-title">
+                      Opérations planifiées
+                      <span class="prog-badge" id="prog-count-badge" style="display:none"></span>
+                    </div>
+                    <div id="prog-list" style="margin-top: 8px;">
+                      <div style="font-size:.8rem;color:var(--muted);padding:12px 0;text-align:center">Aucune opération planifiée</div>
+                    </div>
+                  </div>
+          
+                </div>
+                <!-- /prog-section -->
+          
+              </div>
+          
+            </div>
+          </div>
+          
+          <!-- ── Modal : modification ── -->
+          <div class="modal-overlay" id="modal-overlay" onclick="fermerModalSiDehors(event)">
+            <div class="modal">
+              <div class="modal-title">Modifier l'opération</div>
+              <input type="hidden" id="edit-id">
+              <div class="modal-tabs">
+                <button class="modal-tab active depense" id="edit-tab-depense" onclick="setEditType('depense')">&#8722; Dépense</button>
+                <button class="modal-tab revenu"         id="edit-tab-revenu"  onclick="setEditType('revenu')"> &#43; Revenu</button>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Date</label>
+                  <input type="date" id="edit-date" class="form-input">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Montant (€)</label>
+                  <input type="number" id="edit-montant" class="form-input" step="0.01" min="0">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Catégorie</label>
+                <select id="edit-categorie" class="form-select"></select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Description</label>
+                <input type="text" id="edit-description" class="form-input">
+              </div>
+              <div class="modal-actions">
+                <button class="btn-secondary" onclick="fermerModal()">Annuler</button>
+                <button class="btn-primary"   onclick="sauvegarderModification()">Enregistrer</button>
+              </div>
+            </div>
+          </div>
+          
+
+          <!-- ── Modal : modifier une opération planifiée ── -->
+          <div class="modal-overlay" id="modal-prog-overlay" onclick="fermerModalProgSiDehors(event)">
+
+            <div class="modal">
+              <div class="modal-title">Modifier l'opération planifiée</div>
+              <input type="hidden" id="prog-edit-id">
+              <div class="modal-tabs">
+                <button class="modal-tab active depense" id="prog-edit-tab-dep" onclick="setProgEditType('depense')">&#8722; Dépense</button>
+                <button class="modal-tab revenu"         id="prog-edit-tab-rev" onclick="setProgEditType('revenu')"> &#43; Revenu</button>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Date prévue</label>
+                  <input type="date" id="prog-edit-date" class="form-input">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Montant (€)</label>
+                  <input type="number" id="prog-edit-montant" class="form-input" step="0.01" min="0">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Catégorie</label>
+                <select id="prog-edit-categorie" class="form-select"></select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Description</label>
+                <input type="text" id="prog-edit-description" class="form-input">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Récurrence</label>
+                <select id="prog-edit-recurrence" class="form-select">
+                  <option value="aucune">Une seule fois</option>
+                  <option value="hebdomadaire">Chaque semaine</option>
+                  <option value="mensuelle">Chaque mois</option>
+                  <option value="annuelle">Chaque année</option>
+                </select>
+              </div>
+
+              <div class="modal-actions">
+                <button class="btn-secondary" onclick="fermerModalProg()">Annuler</button>
+                <button class="btn-primary"   onclick="sauvegarderProg()">Enregistrer</button>
+              </div>
+              
+            </div>
+          </div>
+        </div>
     </div>
+
 
 </body>
 </html>
